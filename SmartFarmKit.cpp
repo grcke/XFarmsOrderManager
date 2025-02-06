@@ -1,26 +1,26 @@
 #include <iostream>
-#include <ctime> // time & date for receipt area
-#include <limits> // input validation, avoid infinite looping
+#include <ctime>  // For time & date in receipt
+#include <limits> // For input validation
+
 using namespace std;
 
 int main() {
     int productType, packageType, vegeProduce, kitType, itemException;
     double totalPrice = 0, grandTotal, cash = 0, totalChange;
     int monthlyQuantity, annualQuantity, items = 0, kitQuantity, totalItem = 0, orderNum = 0, billNum = 1234;
-    char continueBuying, hyphen = 45; // ASCII value for '-'
+    char continueBuying;
     orderNum++;
     billNum++;
 
     do {
-        // Validation loop for productType
         while (true) {
-            cout << "\nPick a product:\n1. Vegetable subscription\n2. Smart kit" << endl
-                 << "\nEnter chosen product: ";
+            cout << "\nPick a product:\n1. Vegetable Subscription\n2. Smart Kit" << endl;
+            cout << "\nEnter chosen product: ";
             string input;
             cin >> input;
 
             if (input == "1" || input == "2") {
-                productType = stoi(input); // Convert string to integer
+                productType = stoi(input);
                 break;
             } else {
                 cout << "Invalid product, pick again!" << endl;
@@ -29,10 +29,10 @@ int main() {
             }
         }
 
-        if (productType == 2) { // Smart Kit
+        if (productType == 2) {
             while (true) {
-                cout << "\nPick a package type:\n1. Farm kit\n2. Compost kit\n3. Microgreens kit" << endl
-                     << "\nEnter chosen package: ";
+                cout << "\nPick a package type:\n1. Farm Kit\n2. Compost Kit\n3. Microgreens Kit" << endl;
+                cout << "\nEnter chosen package: ";
                 string input;
                 cin >> input;
 
@@ -48,41 +48,31 @@ int main() {
 
             switch (kitType) {
                 case 1:
-                    cout << "You've picked Farm Kit" << endl << "\nInsert quantity: ";
-                    while (!(cin >> kitQuantity)) {
-                        cout << "Invalid input. Please enter a numeric quantity: ";
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    }
-                    totalPrice += kitQuantity * 19;
-                    totalItem += kitQuantity;
+                    cout << "You've picked Farm Kit\n\nInsert quantity: ";
                     break;
                 case 2:
-                    cout << "You've picked Compost Kit" << endl << "\nInsert quantity: ";
-                    while (!(cin >> kitQuantity)) {
-                        cout << "Invalid input. Please enter a numeric quantity: ";
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    }
-                    totalPrice += kitQuantity * 49;
-                    totalItem += kitQuantity;
+                    cout << "You've picked Compost Kit\n\nInsert quantity: ";
                     break;
                 case 3:
-                    cout << "You've picked Microgreens Kit" << endl << "\nInsert quantity: ";
-                    while (!(cin >> kitQuantity)) {
-                        cout << "Invalid input. Please enter a numeric quantity: ";
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    }
-                    totalPrice += kitQuantity * 35;
-                    totalItem += kitQuantity;
+                    cout << "You've picked Microgreens Kit\n\nInsert quantity: ";
                     break;
-                default:
-                    cout << "\nInvalid kit, pick again!";
             }
-        } else if (productType == 1) { // Vegetable Subscription
+
+            while (!(cin >> kitQuantity)) {
+                cout << "Invalid input. \nPlease enter a numeric quantity: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+
+            totalPrice += kitQuantity * (kitType == 1 ? 19 : kitType == 2 ? 49 : 35);
+            totalItem += kitQuantity;
+            cout << "\nTotal price: RM" << totalPrice << endl;
+        }
+        
+        else if (productType == 1) {
             while (true) {
-                cout << "\nPick a package type:\n1. Monthly grower\n2. Annual grower\nEnter chosen package: ";
+                cout << "\nPick a package type:\n1. Monthly Grower\n2. Annual Grower" << endl;
+                cout << "Enter chosen package: ";
                 string input;
                 cin >> input;
 
@@ -96,13 +86,14 @@ int main() {
                 }
             }
 
-            if (packageType == 1) { // Monthly grower
+            if (packageType == 1) {
                 while (true) {
-                    cout << "\nPick a vegetable produce:\n1. Monthly Grower 1 - Leafy\n2. Monthly Grower 2 - Leafy\n3. Monthly Grower 3 - Leafy\n4. Monthly Grower 1 - Fruity\n5. Monthly Grower 2 - Fruity\nEnter chosen vegetable produce: ";
+                    cout << "\nPick a vegetable produce:\n1. Leafy Grower 1\n2. Leafy Grower 2\n3. Leafy Grower 3\n4. Fruity Grower 1\n5. Fruity Grower 2" << endl;
+                    cout << "\nEnter a chosen vegetable produce: ";
                     string input;
                     cin >> input;
 
-                    if (input == "1" || input == "2" || input == "3" || input == "4" || input == "5") {
+                    if (input >= "1" && input <= "5") {
                         vegeProduce = stoi(input);
                         break;
                     } else {
@@ -113,29 +104,34 @@ int main() {
                 }
 
                 switch (vegeProduce) {
-                    case 1:
-                        cout << "You've picked Monthly Grower 1 - Leafy" << endl << "\nPick items:\n1. Salad lettuces\n2. Hearty Asian greens\n3. Salad & Asian Mix" << endl << "\nEnter chosen items: ";
-                        cin >> items;
-                        break;
                     case 4:
-                        cout << "You've picked Monthly Grower 1 - Fruity" << endl << "\nInsert quantity: ";
+                        cout << "\nInsert quantity: ";
                         while (!(cin >> monthlyQuantity)) {
-                            cout << "Invalid input. Please enter a numeric quantity: ";
+                            cout << "Invalid input. \nPlease enter a numeric quantity: ";
                             cin.clear();
                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         }
                         totalPrice += monthlyQuantity * 120;
                         totalItem += monthlyQuantity;
                         break;
-                    default:
-                        cout << "\nInvalid item, pick again!";
+                    case 5:
+                        cout << "\nInsert quantity: ";
+                        while (!(cin >> monthlyQuantity)) {
+                            cout << "Invalid input. \nPlease enter a numeric quantity: ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        }
+                        totalPrice += monthlyQuantity * 240;
+                        totalItem += monthlyQuantity;
+                        break;
                 }
+                cout << "\nTotal price: RM" << totalPrice << endl;
             }
         }
 
-        grandTotal = (totalPrice * 0.06) + totalPrice;
+        grandTotal = totalPrice * 1.06;
         cout << "\nGrand total (incl. 6%): RM" << grandTotal << "\n";
-        cout << "\nDo you want to continue buying? Enter 'y' to continue, 'n' to exit: ";
+        cout << "\nDo you want to continue buying? (y/n): ";
         cin >> continueBuying;
 
     } while (continueBuying != 'n' && continueBuying != 'N');
@@ -143,15 +139,13 @@ int main() {
     if (totalItem > 0) {
         cout << "\nEnter cash total: RM";
         cin >> cash;
-
         while (cash < grandTotal) {
-            cout << "Amount entered is not sufficient. Please enter amount: RM";
+            cout << "Amount entered is not sufficient\nPlease enter amount: RM";
             cin >> cash;
         }
-
-        cout << "\nPRINTING RECEIPT...\n";
-        cout << "\tThank you for shopping with us!";
+        cout << "\nPRINTING RECEIPT...\nThank you for shopping with us!" << endl;
+    } else {
+        cout << "\nThank you for shopping with us! Come again!" << endl;
     }
-
     return 0;
 }
